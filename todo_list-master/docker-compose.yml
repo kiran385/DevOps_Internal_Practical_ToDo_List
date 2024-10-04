@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    volumes:
+      - ./backend:/usr/src/app
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGODB_URI=mongodb+srv://Kirtan:Kirtan%40998@cluster0.uiyg63a.mongodb.net/kiran
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: ./fronted
+    volumes:
+      - ./fronted:/usr/src/app
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+  mongo:
+    image: mongo
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+
+volumes:
+  mongo-data:
